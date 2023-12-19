@@ -1,56 +1,47 @@
 import { View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Text, TextInput } from 'react-native-paper';
-import AuthToggle from './components/authToggle';
+import AuthForm from './components/authForm';
+import { useFonts } from 'expo-font';
+import * as Font from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import Entypo from "@expo/vector-icons/Entypo";
 
+SplashScreen.preventAutoHideAsync();
 export default function App() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [fontsLoaded] = useFonts({
+    'MontserratMedium': require('./assets/fonts/Montserrat-Medium.ttf')
+  })
+
+  const [appIsReady, setAppIsReady] = useState(false)
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync(Entypo.font)
+        await new Promise(resolve => setTimeout(resolve, 2000))
+      } catch (e) {
+        console.warn(e)
+      } finally {
+        setAppIsReady(true)
+      }
+    }
+    prepare()
+  }, [])
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady])
+
+  if (!appIsReady) {
+    return null;
+  }
 
   return (
-    <View style={{flex: 1, backgroundColor:"#14141A", justifyContent: "center"}}>
-      <View style={{flex: 0.7, justifyContent: "space-around", alignItems: "center"}}>
-        <AuthToggle />
-        <Text style={{fontFamily: "Montserrat Medium", color: "white"}}>Username</Text>
-        <TextInput 
-          placeholder="Enter"
-          mode="outlined"
-          value={username}
-          onChangeText={username => setUsername(username)}
-          style={{width:"80%"}}
-          contentStyle={{fontFamily: "Montserrat Medium"}}
-        />
-        <Text style={{ fontFamily: "Montserrat Medium", color: "white" }}>Email</Text>
-        <TextInput 
-          placeholder="Enter"
-          mode="outlined"
-          value={email}
-          onChangeText={email => setEmail(email)}
-          style={{width:"80%"}}
-          contentStyle={{fontFamily: "Montserrat Medium"}}
-        />
-        <Text style={{ fontFamily: "Montserrat Medium", color: "white" }}>Password</Text>
-        <TextInput 
-          placeholder="Enter"
-          mode="outlined"
-          value={password}
-          onChangeText={password => setPassword(password)}
-          style={{width:"80%"}}
-          contentStyle={{fontFamily: "Montserrat Medium"}}
-        />
-        <Text style={{ fontFamily: "Montserrat Medium", color:"white"}}>Confirm Password</Text>
-        <TextInput 
-          placeholder="Enter"
-          mode="outlined"
-          value={confirmPassword}
-          onChangeText={confirmPassword => setConfirmPassword(confirmPassword)}
-          style={{width:"80%"}}
-          contentStyle={{fontFamily: "Montserrat Medium"}}
-        />
-        <Button style={{width:"60%"}} labelStyle={{ fontFamily: "Montserrat Medium" }} mode="contained" buttonColor="#742DDD">Join</Button>
-      </View>
+    // <AuthForm />
+    <View style={{flex: 1, backgroundColor:"#14141A", justifyContent: "center"}} onLayout={onLayoutRootView}>
+      <AuthForm fontStyle="MontserratMedium" />
     </View>
   );
 }
