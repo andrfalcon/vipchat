@@ -1,16 +1,19 @@
 import { View } from 'react-native';
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Text, TextInput } from 'react-native-paper';
-import AuthForm from './components/authForm';
+import AuthToggle from './components/authToggle';
 import { useFonts } from 'expo-font';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import Entypo from "@expo/vector-icons/Entypo";
+import AuthScreen from './screens/AuthScreen'
 
 SplashScreen.preventAutoHideAsync();
 export default function App() {
   const [fontsLoaded] = useFonts({
-    'MontserratMedium': require('./assets/fonts/Montserrat-Medium.ttf')
+    'MontserratMedium': require('./assets/fonts/Montserrat-Medium.ttf'),
+    'SpaceGroteskBold': require('./assets/fonts/SpaceGrotesk-Bold.ttf'),
+    'MontserratSemiBold': require('./assets/fonts/Montserrat-SemiBold.ttf')
   })
 
   const [appIsReady, setAppIsReady] = useState(false)
@@ -39,9 +42,8 @@ export default function App() {
   }
 
   return (
-    // <AuthForm />
-    <View style={{flex: 1, backgroundColor:"#14141A", justifyContent: "center"}} onLayout={onLayoutRootView}>
-      <AuthForm fontStyle="MontserratMedium" />
+    <View style={{flex: 1, backgroundColor:"#14141A", justifyContent: "center", alignItems: "center"}} onLayout={onLayoutRootView}>
+      <AuthScreen spaceGrotesk="SpaceGroteskBold" montserrat="MontserratMedium" montserratSemiBold="MontserratSemiBold" />
     </View>
   );
 }
