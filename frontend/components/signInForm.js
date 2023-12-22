@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 import { Text, Button, TextInput } from 'react-native-paper';
+import { supabase } from '../supabase';
 
 const signInForm = (props) => {
     const [email, setEmail] = useState("");
@@ -13,6 +14,14 @@ const signInForm = (props) => {
         } else {
             setVisiblePassword(true);
         }
+    }
+
+    const handleSignIn = async () => {
+        const {data, error} = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password
+        })
+        if (!error) console.log("User authenticated!")
     }
 
     return (
@@ -57,7 +66,7 @@ const signInForm = (props) => {
             </View>
 
             <View style={{ width:"100%" }}>
-                <Button style={{ width:"100%", height: "27%", justifyContent: "center", borderRadius: 10, marginTop:"5%"  }} labelStyle={{ fontFamily: props.montserratSemiBold, fontSize: 17 }} mode="contained" buttonColor="#742DDD">Join</Button>
+                <Button style={{ width:"100%", height: "27%", justifyContent: "center", borderRadius: 10, marginTop:"5%"  }} labelStyle={{ fontFamily: props.montserratSemiBold, fontSize: 17 }} mode="contained" buttonColor="#742DDD" onPress={() => handleSignIn()}>Join</Button>
                 <Text style={{ alignSelf:"center", textAlign:"center", fontFamily: props.montserrat, fontSize: 12, color: "#626262", width: "80%", marginTop: "2.5%" }}>By pressing "Join", you are agreeing to the Terms & Service arranged by vipchat.</Text>
             </View>
 

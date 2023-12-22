@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 import AuthToggle from '../components/authToggle';
 import SignUpForm from '../components/signUpForm';
