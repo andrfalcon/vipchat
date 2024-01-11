@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSendbirdChat } from '@sendbird/uikit-react-native';
 import {GroupChannelListScreen, GroupChannelCreateScreen, ConnectSendbirdScreen} from './messaging';
 import AuthScreen from './auth/authScreen';
+import CreateChatScreen from './createChatScreen';
 
 const RootStack = createNativeStackNavigator();
 
@@ -15,9 +16,9 @@ const Navigation = () => {
         <NavigationContainer>
             <RootStack.Navigator screenOptions={{headerShown:false}}>
                 {(!currentUser) ? (
-                    // Test authentication screen
-                    <RootStack.Screen name={'Auth'} component={AuthScreen}/>
-                    // <RootStack.Screen name={'ConnectSendbird'} component={ConnectSendbirdScreen}/>
+                    // Test create chat screen
+                    <RootStack.Screen name={'CreateChatScreen'} component={CreateChatScreen} />
+                    // <RootStack.Screen name={'Auth'} component={AuthScreen}/>
                 ) : (
                     <>
                         <RootStack.Screen name={'GroupChannelList'} component={GroupChannelListScreen} />
