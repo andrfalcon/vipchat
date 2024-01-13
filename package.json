@@ -11,6 +11,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@bam.tech/react-native-image-resizer": "^3.0.7",
+    "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-camera-roll/camera-roll": "^7.2.2",
     "@react-native-clipboard/clipboard": "^1.13.2",
@@ -22,7 +23,9 @@
     "@sendbird/chat": "^4.10.6",
     "@sendbird/uikit-react-native": "^3.3.0",
     "@supabase/supabase-js": "^2.39.2",
+    "axios": "^1.6.5",
     "date-fns": "^3.0.6",
+    "expo-font": "^11.6.0",
     "react": "18.2.0",
     "react-native": "0.73.1",
     "react-native-audio-recorder-player": "^3.6.5",

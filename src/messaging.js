@@ -16,7 +16,7 @@ const GroupChannelListScreen = () => {
     return (
         <GroupChannelListFragment 
             onPressCreateChannel={(channelType) => {
-                navigation.navigate('GroupChannelCreate', { channelType });
+                navigation.navigate('CreateChatScreen', { channelType });
             }}
         />
     )

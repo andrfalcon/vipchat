@@ -94,6 +94,7 @@
 		13B07FAE1A68108700A75B9A /* Vipchat */ = {
 			isa = PBXGroup;
 			children = (
+				FD635AC12B50BE0C0047F903 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -166,6 +167,14 @@
 				89C6BE57DB24E9ADA2F236DE /* Pods-Vipchat-VipchatTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		FD635AC12B50BE0C0047F903 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Fonts;
+			path = "../node_modules/react-native-vector-icons/Fonts";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

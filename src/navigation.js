@@ -16,13 +16,12 @@ const Navigation = () => {
         <NavigationContainer>
             <RootStack.Navigator screenOptions={{headerShown:false}}>
                 {(!currentUser) ? (
-                    // Test create chat screen
-                    <RootStack.Screen name={'CreateChatScreen'} component={CreateChatScreen} />
-                    // <RootStack.Screen name={'Auth'} component={AuthScreen}/>
+                    <RootStack.Screen name={'Auth'} component={AuthScreen}/>
                 ) : (
                     <>
                         <RootStack.Screen name={'GroupChannelList'} component={GroupChannelListScreen} />
                         <RootStack.Screen name={'GroupChannelCreate'} component={GroupChannelCreateScreen} />
+                        <RootStack.Screen name={'CreateChatScreen'} component={CreateChatScreen} />
                     </>
                 )}
             </RootStack.Navigator>
