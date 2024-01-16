@@ -16,7 +16,7 @@ const GroupChannelListScreen = () => {
     return (
         <GroupChannelListFragment 
             onPressCreateChannel={(channelType) => {
-                navigation.navigate('CreateChatScreen', { channelType });
+                navigation.navigate('GroupChannelCreate', { channelType });
             }}
         />
     )
@@ -25,7 +25,13 @@ const GroupChannelListScreen = () => {
 const GroupChannelCreateScreen = () => {
     const navigation = useNavigation();
     return (
-        <GroupChannelCreateFragment onPressHeaderLeft={() => {navigation.goBack();}} />
+        <GroupChannelCreateFragment 
+            onPressHeaderLeft={() => {navigation.goBack()}} 
+            onCreateChannel={async (channel) => {
+                // Navigate to GroupChannel function.
+                navigation.replace('GroupChannelList', { channelUrl: channel.url });
+            }}
+        />
     )
 }
 

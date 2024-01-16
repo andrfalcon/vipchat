@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Text, TextInput, Button } from 'react-native-paper';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 import {SENDBIRD_APP_ID} from "@env";
 import { useSendbirdChat } from '@sendbird/uikit-react-native';
+import SendbirdChat from '@sendbird/chat'
+import { GroupChannelModule } from '@sendbird/chat/groupChannel';
 
 const CreateChatScreen = () => {
     const [title, setTitle] = useState('');
@@ -12,27 +13,28 @@ const CreateChatScreen = () => {
     const navigation = useNavigation();
     const {currentUser} = useSendbirdChat();
 
+    const sb = SendbirdChat.init({
+        appId: SENDBIRD_APP_ID,
+        modules: [
+            new GroupChannelModule(),
+        ],
+      });
+
     async function handleCreateGroupChat() {
         try {
-            response = await axios.post(`https://api-${SENDBIRD_APP_ID}.sendbird.com/v3/group_channels`, {
-                "name": title,
-                "user_ids": [`${currentUser.userId}`],
-                "is_super": true,
-                "operator_ids": [`${currentUser.userId}`]
-            })
-            console.log("Response: " + response);
+          const user = await sb.connect(`${currentUser.userId}`);
+          const params = {
+            name: title,
+            operatorUserIds: [`${currentUser.userId}`],
+            invitedUserIds: [`${currentUser.userId}`]
+          }
+          const channel = await sb.groupChannel.createChannel(params);
+          console.log(Object.keys(channel));
+          console.log(channel.memberCount)
         } catch (error) {
-            // console.log(Object.keys(error));
-            // console.log("Message: " + error.message);
-            // console.log("Name: " + error.name);
-            // console.log("Code: " + error.code);
-            // console.log("Config: " + error.config);
-            // console.log("Request: " + error.request);
-            // console.log("Response: " + error.response);
-            // console.log(Object.keys(error.response.data));
-            console.log(error.response.data.code);
+          console.log(error);
         }
-    }
+      }
 
     return (
         <View style={{flex:1, backgroundColor:"#14141A", justifyContent: "center", alignItems: "center"}}>

@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Image } from 'react-native';
+import { View } from 'react-native';
 import { Text, Button, TextInput } from 'react-native-paper';
 import { supabase } from '../../../services/supabase';
-import {useConnection} from '@sendbird/uikit-react-native';
 
 const signInForm = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [visiblePassword, setVisiblePassword] = useState(false);
-
-    const { connect } = useConnection();
 
     const handleVisiblePassword = () => {
         if (visiblePassword == true) {
@@ -25,10 +22,9 @@ const signInForm = (props) => {
             password: password
         })
         if (!error) {
-            console.log("User authenticated!")
-            connect(email, { nickname: data.user.user_metadata.username })
+            console.log("User authenticated!");
         } else {
-            console.log(error)
+            console.log("Error: " + error);
         }
     }
 

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import { Text, Button, TextInput } from 'react-native-paper';
 import { supabase } from '../../../services/supabase';
-import {useConnection} from '@sendbird/uikit-react-native';
 
 const signUpForm = (props) => {
     const [username, setUsername] = useState("");
@@ -11,8 +10,6 @@ const signUpForm = (props) => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [visiblePassword, setVisiblePassword] = useState(false);
     const [visibleConfirmPassword, setVisibleConfirmPassword] = useState(false);
-
-    const { connect } = useConnection();
 
     const handleVisiblePassword = () => {
         if (visiblePassword == true) {
@@ -40,12 +37,11 @@ const signUpForm = (props) => {
                 }
             }
         })
+
         if (!error) {
             console.log("User created!")
-            console.log(data);
-            connect(email, { nickname: username })
         } else {
-            console.log(error);
+            console.log ("Error: " + error);
         }
     }
 
