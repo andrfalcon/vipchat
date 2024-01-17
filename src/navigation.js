@@ -1,13 +1,14 @@
 import React, { useState, createContext } from 'react';
 import { View, Text, Button } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {GroupChannelListScreen, GroupChannelCreateScreen, ConnectSendbirdScreen} from './messaging';
 import AuthScreen from './auth/authScreen';
+import { NavigationContainer } from '@react-navigation/native';
 import CreateChatScreen from './createChatScreen';
 import ChatScreen from './chat/chatScreen';
 import { supabase } from '../services/supabase';
-import ChatListScreen from './chat/chatListScreen';
+import ChatListScreen from './chat/chatStack';
+import HomeNavigator from './homeNavigator';
 
 const RootStack = createNativeStackNavigator();
 const AuthContext = createContext(null);
@@ -24,12 +25,16 @@ const Navigation = () => {
 
     return (
         <AuthContext.Provider value={handleAuthentication}>
-            <NavigationContainer>
+            <NavigationContainer>   
                 <RootStack.Navigator screenOptions={{headerShown:false}}>
                     {(!authenticated) ? (
                         <RootStack.Screen name={'Auth'} component={AuthScreen} />
                     ) : (
-                        <RootStack.Screen name={'Chat'} component={ChatScreen} />
+                        <RootStack.Screen name={'Home'} component={HomeNavigator} />
+                        // <>
+                        //     <RootStack.Screen name={'ChatList'} component={ChatListScreen}/>
+                        //     <RootStack.Screen name={'Chat'} component={ChatScreen} />
+                        // </>
                     )}
                 </RootStack.Navigator>
             </NavigationContainer>
