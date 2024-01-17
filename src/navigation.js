@@ -15,7 +15,11 @@ const AuthContext = createContext(null);
 const Navigation = () => {
     const [authenticated, setAuthenticated] = useState(false);
     const handleAuthentication = () => {
-        setAuthenticated(true);
+        if (authenticated==true) {
+            setAuthenticated(false);
+        } else {
+            setAuthenticated(true);
+        }
     }
 
     return (

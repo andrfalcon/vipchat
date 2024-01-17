@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View } from 'react-native';
 import { Text, Button, TextInput } from 'react-native-paper';
 import { supabase } from '../../../services/supabase';
+import { AuthContext } from '../../navigation';
 
 const signUpForm = (props) => {
     const [username, setUsername] = useState("");
