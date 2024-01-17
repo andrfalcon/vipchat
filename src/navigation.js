@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, createContext } from 'react';
 import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -7,31 +7,31 @@ import AuthScreen from './auth/authScreen';
 import CreateChatScreen from './createChatScreen';
 import ChatScreen from './chat/chatScreen';
 import { supabase } from '../services/supabase';
+import ChatListScreen from './chat/chatListScreen';
 
 const RootStack = createNativeStackNavigator();
+const AuthContext = createContext(null);
 
 const Navigation = () => {
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        async function initializeUser() {
-            const currentUser = (await supabase.auth.getSession()).data.session.user;
-            setUser(currentUser);
-        }
-        initializeUser();
-    }, [])
+    const [authenticated, setAuthenticated] = useState(false);
+    const handleAuthentication = () => {
+        setAuthenticated(true);
+    }
 
     return (
-        <NavigationContainer>
-            <RootStack.Navigator screenOptions={{headerShown:false}}>
-                {(!user) ? (
-                    <RootStack.Screen name={'Auth'} component={AuthScreen} />
-                ) : (
-                    <RootStack.Screen name={'Chat'} component={ChatScreen} />
-                )}
-            </RootStack.Navigator>
-        </NavigationContainer>
+        <AuthContext.Provider value={handleAuthentication}>
+            <NavigationContainer>
+                <RootStack.Navigator screenOptions={{headerShown:false}}>
+                    {(!authenticated) ? (
+                        <RootStack.Screen name={'Auth'} component={AuthScreen} />
+                    ) : (
+                        <RootStack.Screen name={'Chat'} component={ChatScreen} />
+                    )}
+                </RootStack.Navigator>
+            </NavigationContainer>
+        </AuthContext.Provider>
     )
 }
 
 export default Navigation;
+export { AuthContext };

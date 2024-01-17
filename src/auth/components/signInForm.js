@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View } from 'react-native';
 import { Text, Button, TextInput } from 'react-native-paper';
 import { supabase } from '../../../services/supabase';
+import { AuthContext } from '../../navigation';
 
 const signInForm = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [visiblePassword, setVisiblePassword] = useState(false);
+    const authenticateUser = useContext(AuthContext);
 
     const handleVisiblePassword = () => {
         if (visiblePassword == true) {
@@ -22,6 +24,7 @@ const signInForm = (props) => {
             password: password
         })
         if (!error) {
+            authenticateUser();
             console.log("User authenticated!");
         } else {
             console.log("Error: " + error);

@@ -10,6 +10,7 @@ const signUpForm = (props) => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [visiblePassword, setVisiblePassword] = useState(false);
     const [visibleConfirmPassword, setVisibleConfirmPassword] = useState(false);
+    const authenticateUser = useContext(AuthContext);
 
     const handleVisiblePassword = () => {
         if (visiblePassword == true) {
@@ -39,6 +40,7 @@ const signUpForm = (props) => {
         })
 
         if (!error) {
+            authenticateUser();
             console.log("User created!")
         } else {
             console.log ("Error: " + error);
