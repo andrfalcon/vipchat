@@ -30,6 +30,7 @@ const signUpForm = (props) => {
     }
 
     const handleSignUp = async () => {
+        // Sign up user 
         const { data, error } = await supabase.auth.signUp({
             email: email,
             password: password,
@@ -38,6 +39,13 @@ const signUpForm = (props) => {
                     username: username
                 }
             }
+        })
+
+        // Add user to users table
+        await supabase.from('users').insert({
+            username: username,
+            email: email,
+            groups: []
         })
 
         if (!error) {

@@ -31,10 +31,6 @@ const Navigation = () => {
                         <RootStack.Screen name={'Auth'} component={AuthScreen} />
                     ) : (
                         <RootStack.Screen name={'Home'} component={HomeNavigator} />
-                        // <>
-                        //     <RootStack.Screen name={'ChatList'} component={ChatListScreen}/>
-                        //     <RootStack.Screen name={'Chat'} component={ChatScreen} />
-                        // </>
                     )}
                 </RootStack.Navigator>
             </NavigationContainer>
