@@ -23,7 +23,7 @@ const ChatListScreen = () => {
             <FlatList 
                 data={sharedChatData.chatList} 
                 renderItem={({item}) => (<Button onPress={() => navigation.navigate('Chat', {
-                    test: "this is a test parameter we r passing"
+                    chatName: item.name
                 })}>{item.name}</Button>)} 
             />
         </View>

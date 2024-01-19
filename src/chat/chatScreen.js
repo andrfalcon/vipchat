@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 // import { useNavigation } from '@react-navigation/native';
 import 'react-native-url-polyfill/auto';
@@ -8,7 +8,7 @@ import { AuthContext } from '../navigation';
 
 const ChatScreen = ({ route }) => {
     // const navigation = useNavigation()
-    const { test } = route.params;
+    const { chatName } = route.params;
     const [message, setMessage] = useState('');
     const signoutUser = useContext(AuthContext);
 
@@ -36,7 +36,7 @@ const ChatScreen = ({ route }) => {
     }
 
     useEffect(() => {
-        console.log(test);
+        console.log(chatName);
     }, [])
 
     // Display content depending on which groupchat the user is in
@@ -44,6 +44,7 @@ const ChatScreen = ({ route }) => {
 
     return (
         <View style={{flex:1, justifyContent: "center"}}>
+            <Text>{chatName}</Text>
             <Button onPress={() => handleSignOut()} mode="contained">Sign Out</Button>
             <TextInput value={message} onChangeText={text => setMessage(text)}/>
             <Button 
