@@ -8,11 +8,12 @@ import AccountScreen from './accountScreen';
 const Tab = createBottomTabNavigator();
 
 const HomeNavigator = () => {
+
     return (
-        <Tab.Navigator screenOptions={{headerShown:false}}>
-            <Tab.Screen name='ChatStack' component={ChatStack} />
-            <Tab.Screen name='Account' component={AccountScreen} />
-        </Tab.Navigator>
+    <Tab.Navigator screenOptions={{headerShown:false}}>
+        <Tab.Screen name='ChatStack' component={ChatStack} />
+        <Tab.Screen name='Account' component={AccountScreen} />
+    </Tab.Navigator>
     )
 }
 

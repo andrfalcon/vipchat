@@ -1,30 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View } from 'react-native';
 import { Text, TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { supabase } from '../services/supabase';
+import { supabase } from '../../services/supabase';
+import { ChatListContext } from './chatStack';
 
 const CreateChatScreen = () => {
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const navigation = useNavigation();
+    const sharedChatData = useContext(ChatListContext);
 
     async function handleCreateGroupChat() {
-        user = (await supabase.auth.getSession()).data.session.user.user_metadata.username
+        const user = (await supabase.auth.getSession()).data.session.user.user_metadata.username
         const { error } = await supabase.from('groups').insert({
             group_name: title,
             created_by: user,
             price: price
         })
 
-        const userGroups = (await supabase.from('users').select('groups')).data[0].groups;
+        const userGroups = (await supabase.from('users').select('groups').eq('username', user)).data[0].groups;
         userGroups.push(title);
 
         // Add creator to their created group
         await supabase.from('users').update({
             groups: userGroups
         }).eq('username', user)
+
+        sharedChatData.handleUserAddedToChat();
 
         if (!error) {
             console.log("Group chat created successfully!");

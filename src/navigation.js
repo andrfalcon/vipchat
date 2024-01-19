@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {GroupChannelListScreen, GroupChannelCreateScreen, ConnectSendbirdScreen} from './messaging';
 import AuthScreen from './auth/authScreen';
 import { NavigationContainer } from '@react-navigation/native';
-import CreateChatScreen from './createChatScreen';
+import CreateChatScreen from './chat/createChatScreen';
 import ChatScreen from './chat/chatScreen';
 import { supabase } from '../services/supabase';
 import ChatListScreen from './chat/chatStack';
