@@ -6,13 +6,10 @@ import { supabase } from '../../services/supabase';
 import { create } from 'react-test-renderer';
 import { ChatListContext } from './chatStack';
 
-// GOAL: Whenever a chat is created or a user is added to a new chat, rerender list component
-
-// Add list displaying groupchats users are subscribed to
 const ChatListScreen = () => {
     const navigation = useNavigation();
     const sharedChatData = useContext(ChatListContext);
-    
+
     useEffect(() => {
         sharedChatData.handleUserAddedToChat();
     }, [])
@@ -22,9 +19,12 @@ const ChatListScreen = () => {
             <Text>Chat List Screen</Text>
             <Button onPress={() => navigation.navigate('Chat')}>Go to Chat Screen</Button>
             <Button onPress={() => navigation.navigate('CreateChat')}>Create Group Chat</Button>
+            {/* Next: Bring users to specific chat when chat is selected */}
             <FlatList 
                 data={sharedChatData.chatList} 
-                renderItem={({item}) => (<Text>{item.name}</Text>)} 
+                renderItem={({item}) => (<Button onPress={() => navigation.navigate('Chat', {
+                    test: "this is a test parameter we r passing"
+                })}>{item.name}</Button>)} 
             />
         </View>
     )

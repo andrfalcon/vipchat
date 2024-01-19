@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 // import { useNavigation } from '@react-navigation/native';
@@ -6,8 +6,9 @@ import 'react-native-url-polyfill/auto';
 import { supabase } from '../../services/supabase';
 import { AuthContext } from '../navigation';
 
-const ChatScreen = () => {
+const ChatScreen = ({ route }) => {
     // const navigation = useNavigation()
+    const { test } = route.params;
     const [message, setMessage] = useState('');
     const signoutUser = useContext(AuthContext);
 
@@ -33,6 +34,13 @@ const ChatScreen = () => {
             console.log("Error: " + error);
         }
     }
+
+    useEffect(() => {
+        console.log(test);
+    }, [])
+
+    // Display content depending on which groupchat the user is in
+    // Need a way to access which group a user is in
 
     return (
         <View style={{flex:1, justifyContent: "center"}}>
