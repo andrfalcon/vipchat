@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text } from 'react-native';
-import { TextInput, Button, FlatList } from 'react-native-paper';
+import { View, Text, FlatList } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
 // import { useNavigation } from '@react-navigation/native';
 import 'react-native-url-polyfill/auto';
 import { supabase } from '../../services/supabase';
@@ -11,6 +11,7 @@ const ChatScreen = ({ route }) => {
     const { chatName } = route.params;
     const [message, setMessage] = useState('');
     const signoutUser = useContext(AuthContext);
+    const [chats, setChats] = useState([]);
 
     // Using this to generate key for flatlist
     function getRandomInt(min, max) {
@@ -43,35 +44,39 @@ const ChatScreen = ({ route }) => {
         }
     }
 
-    async function handleFetchChats() {
-        // chats => [{}, {}]
-        const chats = (await supabase.from('messages').select('content').eq('group_name', chatName)).data;
-        // Insert key into each object (for FlatList)
-        for (let i=0; i<chats.length; i++) {
-            chats[i].key = String(getRandomInt(1,100000));
+    // async function handleFetchChats() {
+    //     // chats => [{}, {}]
+    //     dummyChats = (await supabase.from('messages').select('content').eq('group_name', chatName)).data;
+    //     // Insert key into each object (for FlatList)
+    //     for (let i=0; i<dummyChats.length; i++) {
+    //         dummyChats[i].key = String(getRandomInt(1,100000));
+    //     }
+    //     setChats(dummyChats);
+    // }
+
+    // useEffect(() => {
+    //     handleFetchChats();
+    // }, [])
+
+    const channel = supabase
+        .channel('messages_table_changes')
+        .on('postgres_changes', {
+            event: '*',
+            schema: 'public',
+            table: 'messages'
+        },
+        (payload) => {
+            console.log(payload);
         }
-        console.log(chats);
-    }
-
-    useEffect(() => {
-        handleFetchChats();
-    }, [])
-
-    // Pagination
-    // const chatsDisplayed = []
-
-    // On mount (useEffect) => load the previous 15 messages sent in the group chat
-    // Whenever the user scrolls up by a certain amount, change the page with state
-    // Link this state to useEffect => load messages
+        ).subscribe()
 
     return (
         <View style={{flex:1, justifyContent: "center", alignItems: "center"}}>
             <Button onPress={() => handleSignOut()} mode="contained">Sign Out</Button>
             <Text>{chatName}</Text>
-            {/* Use this flatlist to display messages */}
             {/* <FlatList 
-                data={} 
-                renderItem={({item}) => (<Text>{item}</Text>)} 
+                data={chats} 
+                renderItem={({item}) => (<Text>{item.content}</Text>)} 
             /> */}
             <TextInput value={message} onChangeText={text => setMessage(text)}/>
             <Button 
