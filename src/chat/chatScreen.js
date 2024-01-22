@@ -15,7 +15,6 @@ const ChatScreen = ({ route }) => {
 
     // Using this to generate key for flatlist
     function getRandomInt(min, max) {
-        // The maximum is exclusive, so we add 1 to include it
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -44,23 +43,17 @@ const ChatScreen = ({ route }) => {
         }
     }
 
-    // async function handleFetchChats() {
-    //     // chats => [{}, {}]
-    //     dummyChats = (await supabase.from('messages').select('content').eq('group_name', chatName)).data;
-    //     // Insert key into each object (for FlatList)
-    //     for (let i=0; i<dummyChats.length; i++) {
-    //         dummyChats[i].key = String(getRandomInt(1,100000));
-    //     }
-    //     setChats(dummyChats);
-    // }
-
-    // useEffect(() => {
-    //     handleFetchChats();
-    // }, [])
+    async function handleFetchChats() {
+        var dummyChats = (await supabase.from('messages').select('content').eq('group_name', chatName)).data;
+        for (let i=0; i<dummyChats.length; i++) {
+            dummyChats[i].key = String(getRandomInt(1,100000));
+        }
+        setChats(dummyChats);
+    }
 
     useEffect(() => {
         // Fetch old chats
-
+        handleFetchChats();
         // Listen for new chats
         const channel = supabase
         .channel('messages_table_changes')
