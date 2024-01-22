@@ -58,7 +58,11 @@ const ChatScreen = ({ route }) => {
     //     handleFetchChats();
     // }, [])
 
-    const channel = supabase
+    useEffect(() => {
+        // Fetch old chats
+
+        // Listen for new chats
+        const channel = supabase
         .channel('messages_table_changes')
         .on('postgres_changes', {
             event: '*',
@@ -66,19 +70,20 @@ const ChatScreen = ({ route }) => {
             table: 'messages'
         },
         (payload) => {
-            console.log(payload);
+            setChats(prevChats => [...prevChats, {key: String(getRandomInt(1,100000)), content: payload.new.content}]);
         }
         ).subscribe()
+    }, [])
 
     return (
         <View style={{flex:1, justifyContent: "center", alignItems: "center"}}>
             <Button onPress={() => handleSignOut()} mode="contained">Sign Out</Button>
             <Text>{chatName}</Text>
-            {/* <FlatList 
+            <FlatList 
                 data={chats} 
                 renderItem={({item}) => (<Text>{item.content}</Text>)} 
-            /> */}
-            <TextInput value={message} onChangeText={text => setMessage(text)}/>
+            />
+            <TextInput value={message} onChangeText={message => setMessage(message)}/>
             <Button 
             onPress={() => handleSendMessage()}
             mode="contained"
