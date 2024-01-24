@@ -17,12 +17,13 @@ const NoMatch = () => {
             <Text 
                 style={{
                     color: "white",
-                    fontFamily: "Montserrat-SemiBold"
+                    fontFamily: "Montserrat-SemiBold",
+                    fontWeight: "bold"
                 }}
             >No matching results.</Text>
             <Text style={{
                 color: "white",
-                fontFamily: "Montserrat-Medium"
+                fontFamily: "Montserrat-Medium",
             }}>Please try searching a different name or URL.</Text>
         </View>
     )

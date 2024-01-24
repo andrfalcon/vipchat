@@ -10,7 +10,15 @@ const Tab = createBottomTabNavigator();
 
 const HomeNavigator = () => {
     return (
-        <Tab.Navigator screenOptions={{headerShown:false}}>
+        <Tab.Navigator 
+            screenOptions={{
+                headerShown:false,
+                tabBarStyle: {
+                    backgroundColor: "#101010",
+                    borderTopWidth: 0
+                }
+            }}
+        >
             <Tab.Screen name='DiscoverStack' component={DiscoverStack} />
             <Tab.Screen name='ChatStack' component={ChatStack} />
             <Tab.Screen name='Account' component={AccountScreen} />
