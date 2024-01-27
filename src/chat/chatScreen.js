@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { TextInput, Button } from 'react-native-paper';
+import { View, Text, FlatList, TextInput } from 'react-native';
+import { Button } from 'react-native-paper';
 // import { useNavigation } from '@react-navigation/native';
 import 'react-native-url-polyfill/auto';
 import { supabase } from '../../services/supabase';
@@ -77,17 +77,32 @@ const ChatScreen = ({ route }) => {
             <View style={{ height: "10%", width: "100%", backgroundColor: "#202024", paddingTop: "7.5%" }}>
                 <Text style={{ color: "white" }}>{chatName}</Text>
             </View>
-            
+
             <FlatList 
                 data={chats} 
                 renderItem={({item}) => (<ChatBubble content={item.content} />)} 
             />
-            <TextInput value={message} onChangeText={message => setMessage(message)}/>
-            <Button 
+            
+            <View style={{ alignSelf: "flex-end", height: "6%", width: "100%" }} >
+                    <TextInput
+                        value={message} 
+                        onChangeText={message => setMessage(message)}
+                        placeholder="Welcome to America"
+                        placeholderTextColor='#36393E'
+                        style={{
+                            width: "90%",
+                            height: "100%",
+                            backgroundColor: "#202024",
+                            borderRadius: 10,
+                            alignItems: "center"
+                        }}
+                    />
+            </View>
+            {/* <Button 
             onPress={() => handleSendMessage()}
             mode="contained"
             >Send message
-            </Button>
+            </Button> */}
         </View>
     )
 }
