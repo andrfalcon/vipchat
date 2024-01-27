@@ -5,6 +5,7 @@ import { TextInput, Button } from 'react-native-paper';
 import 'react-native-url-polyfill/auto';
 import { supabase } from '../../services/supabase';
 import { AuthContext } from '../navigation';
+import ChatBubble from './components/chatBubble';
 
 const ChatScreen = ({ route }) => {
     // const navigation = useNavigation()
@@ -33,15 +34,15 @@ const ChatScreen = ({ route }) => {
         }
     }
 
-    async function handleSignOut() {
-        const { error } = await supabase.auth.signOut()
-        if (!error) {
-            signoutUser();
-            console.log("User signed out!");
-        } else {
-            console.log("Error: " + error);
-        }
-    }
+    // async function handleSignOut() {
+    //     const { error } = await supabase.auth.signOut()
+    //     if (!error) {
+    //         signoutUser();
+    //         console.log("User signed out!");
+    //     } else {
+    //         console.log("Error: " + error);
+    //     }
+    // }
 
     async function handleFetchChats() {
         var dummyChats = (await supabase.from('messages').select('content').eq('group_name', chatName)).data;
@@ -69,12 +70,17 @@ const ChatScreen = ({ route }) => {
     }, [])
 
     return (
-        <View style={{flex:1, justifyContent: "center", alignItems: "center"}}>
-            <Button onPress={() => handleSignOut()} mode="contained">Sign Out</Button>
-            <Text>{chatName}</Text>
+        <View style={{flex:1, justifyContent: "center", alignItems: "center", backgroundColor: "#14141A"}}>
+            {/* <Button onPress={() => handleSignOut()} mode="contained">Sign Out</Button> */}
+            
+            {/* Group Chat Header */}
+            <View style={{ height: "10%", width: "100%", backgroundColor: "#202024", paddingTop: "7.5%" }}>
+                <Text style={{ color: "white" }}>{chatName}</Text>
+            </View>
+            
             <FlatList 
                 data={chats} 
-                renderItem={({item}) => (<Text>{item.content}</Text>)} 
+                renderItem={({item}) => (<ChatBubble content={item.content} />)} 
             />
             <TextInput value={message} onChangeText={message => setMessage(message)}/>
             <Button 

@@ -15,7 +15,7 @@ const ChatListScreen = () => {
     }, [])
 
     return (
-        <View style={{flex:1, justifyContent: "flexStart", alignItems: "center", paddingTop: "10%"}}>
+        <View style={{flex:1, justifyContent: "flexStart", alignItems: "center", paddingTop: "10%", backgroundColor: "#14141A"}}>
             <Text>Chat List Screen</Text>
             <Button onPress={() => navigation.navigate('Chat')}>Go to Chat Screen</Button>
             <Button onPress={() => navigation.navigate('CreateChat')}>Create Group Chat</Button>
