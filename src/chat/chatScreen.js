@@ -1,15 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, FlatList, TextInput } from 'react-native';
+import { View, Text, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
-// import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import 'react-native-url-polyfill/auto';
 import { supabase } from '../../services/supabase';
 import { AuthContext } from '../navigation';
 import ChatBubble from './components/chatBubble';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Octicons';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 const ChatScreen = ({ route }) => {
-    // const navigation = useNavigation()
+    const navigation = useNavigation()
     const { chatName } = route.params;
     const [message, setMessage] = useState('');
     const signoutUser = useContext(AuthContext);
@@ -73,11 +74,12 @@ const ChatScreen = ({ route }) => {
     return (
         <View style={{flex:1, justifyContent: "center", alignItems: "center", backgroundColor: "#14141A"}}>
             {/* <Button onPress={() => handleSignOut()} mode="contained">Sign Out</Button> */}
-            
-            <Icon name="rocket" size={30} color="#900" />
 
             {/* Group Chat Header */}
-            <View style={{ height: "10%", width: "100%", backgroundColor: "#202024", paddingTop: "7.5%" }}>
+            <View style={{ flexDirection: "row", height: "10%", width: "100%", backgroundColor: "#202024", paddingTop: "7.5%" }}>
+                <TouchableOpacity onPress={() => navigation.navigate('ChatList')}>
+                    <Icon name="chevron-left" size={30} color="white" />
+                </TouchableOpacity>
                 <Text style={{ color: "white" }}>{chatName}</Text>
             </View>
 
@@ -86,26 +88,30 @@ const ChatScreen = ({ route }) => {
                 renderItem={({item}) => (<ChatBubble content={item.content} />)} 
             />
             
-            <View style={{ alignSelf: "flex-end", height: "6%", width: "100%" }} >
+            <View style={{ alignSelf: "flex-end", height: "7.5%", width: "100%" }} >
+                <View style={{ flexDirection: "row", height: "100%", width: "100%", alignItems: "center", justifyContent: "space-evenly" }}>
                     <TextInput
                         value={message} 
                         onChangeText={message => setMessage(message)}
-                        placeholder="Welcome to America"
+                        placeholder="Enter your message here"
                         placeholderTextColor='#36393E'
                         style={{
-                            width: "90%",
+                            width: "80%",
                             height: "100%",
                             backgroundColor: "#202024",
                             borderRadius: 10,
-                            alignItems: "center"
+                            alignItems: "center",
+                            fontSize: RFPercentage(2.5),
+                            color:"white",
+                            paddingLeft: "3%"
                         }}
                     />
+
+                    <TouchableOpacity onPress={() => handleSendMessage()}>
+                        <Icon name="paper-airplane" size={30} color="white"/>
+                    </TouchableOpacity>
+                </View>
             </View>
-            {/* <Button 
-            onPress={() => handleSendMessage()}
-            mode="contained"
-            >Send message
-            </Button> */}
         </View>
     )
 }
