@@ -6,6 +6,7 @@ import 'react-native-url-polyfill/auto';
 import { supabase } from '../../services/supabase';
 import { AuthContext } from '../navigation';
 import ChatBubble from './components/chatBubble';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ChatScreen = ({ route }) => {
     // const navigation = useNavigation()
@@ -73,6 +74,8 @@ const ChatScreen = ({ route }) => {
         <View style={{flex:1, justifyContent: "center", alignItems: "center", backgroundColor: "#14141A"}}>
             {/* <Button onPress={() => handleSignOut()} mode="contained">Sign Out</Button> */}
             
+            <Icon name="rocket" size={30} color="#900" />
+
             {/* Group Chat Header */}
             <View style={{ height: "10%", width: "100%", backgroundColor: "#202024", paddingTop: "7.5%" }}>
                 <Text style={{ color: "white" }}>{chatName}</Text>
