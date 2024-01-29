@@ -8,6 +8,7 @@ import { AuthContext } from '../navigation';
 import ChatBubble from './components/chatBubble';
 import Icon from 'react-native-vector-icons/Octicons';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ChatScreen = ({ route }) => {
     const navigation = useNavigation()
@@ -72,15 +73,15 @@ const ChatScreen = ({ route }) => {
     }, [])
 
     return (
-        <View style={{flex:1, justifyContent: "center", alignItems: "center", backgroundColor: "#14141A"}}>
+        <View style={{flex:1, backgroundColor: "#14141A"}}>
             {/* <Button onPress={() => handleSignOut()} mode="contained">Sign Out</Button> */}
 
             {/* Group Chat Header */}
-            <View style={{ flexDirection: "row", height: "10%", width: "100%", backgroundColor: "#202024", paddingTop: "7.5%" }}>
+            <View style={{ flexDirection: "row", height: "10%", width: "100%" }}>
                 <TouchableOpacity onPress={() => navigation.navigate('ChatList')}>
                     <Icon name="chevron-left" size={30} color="white" />
                 </TouchableOpacity>
-                <Text style={{ color: "white" }}>{chatName}</Text>
+                <Text style={{ fontFamily: "Montserrat-Medium", color: "white" }}>{chatName}</Text>
             </View>
 
             <FlatList 
