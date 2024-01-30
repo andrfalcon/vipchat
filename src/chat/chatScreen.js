@@ -7,6 +7,7 @@ import { supabase } from '../../services/supabase';
 import { AuthContext } from '../navigation';
 import ChatBubble from './components/chatBubble';
 import Icon from 'react-native-vector-icons/Octicons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -73,15 +74,18 @@ const ChatScreen = ({ route }) => {
     }, [])
 
     return (
-        <View style={{flex:1, backgroundColor: "#14141A"}}>
+        <View style={{flex:1, backgroundColor: "#14141A" }}>
             {/* <Button onPress={() => handleSignOut()} mode="contained">Sign Out</Button> */}
 
             {/* Group Chat Header */}
-            <View style={{ flexDirection: "row", height: "10%", width: "100%" }}>
-                <TouchableOpacity onPress={() => navigation.navigate('ChatList')}>
+            <View style={{ flexDirection: "row", height: "9%", width: "100%", marginTop: "4%", alignItems: "center", justifyContent: "space-between" }}>
+                <TouchableOpacity onPress={() => navigation.navigate('ChatList')} style={{ paddingLeft: "3%" }}>
                     <Icon name="chevron-left" size={30} color="white" />
                 </TouchableOpacity>
-                <Text style={{ fontFamily: "Montserrat-Medium", color: "white" }}>{chatName}</Text>
+                <Text style={{ fontFamily: "Montserrat-Semibold", fontSize: RFPercentage(2.5), color: "white" }}>{chatName}</Text>
+                <TouchableOpacity style={{ paddingRight: "3%" }}>
+                    <FontAwesomeIcon name="gear" size={25} color="white" />
+                </TouchableOpacity>
             </View>
 
             <FlatList 
@@ -89,27 +93,31 @@ const ChatScreen = ({ route }) => {
                 renderItem={({item}) => (<ChatBubble content={item.content} />)} 
             />
             
-            <View style={{ alignSelf: "flex-end", height: "7.5%", width: "100%" }} >
+            <View style={{ alignSelf: "flex-end", height: "7%", width: "100%" }} >
                 <View style={{ flexDirection: "row", height: "100%", width: "100%", alignItems: "center", justifyContent: "space-evenly" }}>
+                    <TouchableOpacity>
+                        <FontAwesomeIcon name="photo" size={25} color="#E4E4E4" />
+                    </TouchableOpacity>
+
                     <TextInput
                         value={message} 
                         onChangeText={message => setMessage(message)}
                         placeholder="Enter your message here"
                         placeholderTextColor='#36393E'
                         style={{
-                            width: "80%",
+                            width: "70%",
                             height: "100%",
                             backgroundColor: "#202024",
-                            borderRadius: 10,
+                            borderRadius: 20,
                             alignItems: "center",
-                            fontSize: RFPercentage(2.5),
+                            fontSize: RFPercentage(2.25),
                             color:"white",
                             paddingLeft: "3%"
                         }}
                     />
 
                     <TouchableOpacity onPress={() => handleSendMessage()}>
-                        <Icon name="paper-airplane" size={30} color="white"/>
+                        <Icon name="paper-airplane" size={25} color="#E4E4E4"/>
                     </TouchableOpacity>
                 </View>
             </View>

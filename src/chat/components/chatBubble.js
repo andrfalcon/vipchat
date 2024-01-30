@@ -7,9 +7,9 @@ const ChatBubble = (props) => {
         // <View style={{ backgroundColor: "#742DDD", padding: "5%", borderRadius: 7 }}>
         //     <Text style={{ color: "white", fontFamily: "Montserrat-Medium" }}>{props.content}</Text>
         // </View>
-        <View style={{flexDirection: "row"}}>
+        <View style={{ flexDirection: "row", width: "95%", alignSelf: "center", paddingBottom: "1.5%" }}>
             <Text style={{ fontSize: RFPercentage(5) }}>🧩</Text>
-            <View style={{flexDirection: "column"}}>
+            <View style={{flexDirection: "column", paddingLeft: "1.75%" }}>
                 <View style={{ flexDirection: "row" }}>
                     <Text 
                         style={{ 
@@ -21,14 +21,15 @@ const ChatBubble = (props) => {
                     </Text>
                     <Text style={{ 
                         color: "#626262",
-                        fontFamily: "Montserrat-Medium"
+                        fontFamily: "Montserrat-Medium",
+                        paddingLeft: "3%"
                      }}>11/05/23 at 11:01AM</Text>
                 </View>
                 <Text 
                     style={{ 
                         color: "white",
                         fontFamily: "Montserrat-Medium"
-                 }}>Let's fucking go boys!</Text>
+                 }}>{props.content}</Text>
             </View>
         </View>
 
