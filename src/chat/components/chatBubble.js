@@ -17,7 +17,7 @@ const ChatBubble = (props) => {
                             fontFamily: "Montserrat-Medium",
                             fontWeight: "bold"
                         }}>
-                        Shafeeq Ibraheem
+                        {props.username}
                     </Text>
                     <Text style={{ 
                         color: "#626262",

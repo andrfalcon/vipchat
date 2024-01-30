@@ -36,6 +36,7 @@ const ChatScreen = ({ route }) => {
         if (error) {
             console.log("Error: " + error);
         }
+        console.log(chats)
     }
 
     // async function handleSignOut() {
@@ -49,11 +50,12 @@ const ChatScreen = ({ route }) => {
     // }
 
     async function handleFetchChats() {
-        var dummyChats = (await supabase.from('messages').select('content').eq('group_name', chatName)).data;
+        var dummyChats = (await supabase.from('messages').select('content, user_id').eq('group_name', chatName)).data;
         for (let i=0; i<dummyChats.length; i++) {
             dummyChats[i].key = String(getRandomInt(1,100000));
         }
         setChats(dummyChats);
+        console.log(dummyChats);
     }
 
     useEffect(() => {
@@ -68,7 +70,7 @@ const ChatScreen = ({ route }) => {
             table: 'messages'
         },
         (payload) => {
-            setChats(prevChats => [...prevChats, {key: String(getRandomInt(1,100000)), content: payload.new.content}]);
+            setChats(prevChats => [...prevChats, {key: String(getRandomInt(1,100000)), content: payload.new.content, user_id: payload.new.user_id}]);
         }
         ).subscribe()
     }, [])
@@ -90,7 +92,7 @@ const ChatScreen = ({ route }) => {
 
             <FlatList 
                 data={chats} 
-                renderItem={({item}) => (<ChatBubble content={item.content} />)} 
+                renderItem={({item}) => (<ChatBubble content={item.content} username={item.user_id} />)} 
             />
             
             <View style={{ alignSelf: "flex-end", height: "7%", width: "100%" }} >
