@@ -17,13 +17,7 @@ const ChatScreen = ({ route }) => {
     const [message, setMessage] = useState('');
     const signoutUser = useContext(AuthContext);
     const [chats, setChats] = useState([]);
-
-    // Using this to generate key for flatlist
-    function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    const [numberOfChatsDisplayed, setNumberOfChatsDisplayed] = useState(0);
 
     async function handleSendMessage() {
         const session = await supabase.auth.getSession();
@@ -39,23 +33,23 @@ const ChatScreen = ({ route }) => {
         console.log(chats)
     }
 
-    // async function handleSignOut() {
-    //     const { error } = await supabase.auth.signOut()
-    //     if (!error) {
-    //         signoutUser();
-    //         console.log("User signed out!");
-    //     } else {
-    //         console.log("Error: " + error);
-    //     }
-    // }
-
+    // Use this function to fetch the first 15 chats or so
     async function handleFetchChats() {
         var dummyChats = (await supabase.from('messages').select('content, user_id, sent_at').eq('group_name', chatName)).data;
-        for (let i=0; i<dummyChats.length; i++) {
-            dummyChats[i].key = String(getRandomInt(1,100000));
-        }
         setChats(dummyChats);
-        console.log(dummyChats);
+    }
+
+    // Use this function to fetch chats as the user scrolls
+    async function handleScroll() {
+        const timeSortedChatData = await supabase
+        .from('messages')
+        .select('content, user_id, sent_at')
+        .eq('group_name', chatName)
+        .order('sent_at', { ascending: false })
+        .range(numberOfChatsDisplayed, numberOfChatsDisplayed + 2);
+        console.log(timeSortedChatData);
+        setNumberOfChatsDisplayed(numberOfChatsDisplayed + 3);
+        // NOW: APPEND TIME SORTED CHAT DATA TO CHATS VARIABLE
     }
 
     useEffect(() => {
@@ -70,14 +64,13 @@ const ChatScreen = ({ route }) => {
             table: 'messages'
         },
         (payload) => {
-            setChats(prevChats => [...prevChats, {key: String(getRandomInt(1,100000)), content: payload.new.content, user_id: payload.new.user_id, sent_at: payload.new.sent_at}]);
+            setChats(prevChats => [...prevChats, {content: payload.new.content, user_id: payload.new.user_id, sent_at: payload.new.sent_at}]);
         }
         ).subscribe()
     }, [])
 
     return (
         <View style={{flex:1, backgroundColor: "#14141A" }}>
-            {/* <Button onPress={() => handleSignOut()} mode="contained">Sign Out</Button> */}
 
             {/* Group Chat Header */}
             <View style={{ flexDirection: "row", height: "9%", width: "100%", marginTop: "4%", alignItems: "center", justifyContent: "space-between" }}>
@@ -88,12 +81,13 @@ const ChatScreen = ({ route }) => {
                 <TouchableOpacity style={{ paddingRight: "3%" }}>
                     <FontAwesomeIcon name="gear" size={25} color="white" />
                 </TouchableOpacity>
+                <Button onPress={() => handleScroll()}>Test Load Chats</Button>
             </View>
 
             <FlatList 
-                data={chats.reverse()}
-                inverted={true} 
-                renderItem={({item}) => (<ChatBubble content={item.content} username={item.user_id} time={item.sent_at} />)} 
+                data={chats}
+                renderItem={({item}) => (<ChatBubble content={item.content} username={item.user_id} time={item.sent_at} />)}
+                keyExtractor={item => chats.indexOf(item)} 
             />
             
             <View style={{ alignSelf: "flex-end", height: "7%", width: "100%" }} >
