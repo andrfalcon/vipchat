@@ -91,7 +91,8 @@ const ChatScreen = ({ route }) => {
             </View>
 
             <FlatList 
-                data={chats} 
+                data={chats.reverse()}
+                inverted={true} 
                 renderItem={({item}) => (<ChatBubble content={item.content} username={item.user_id} time={item.sent_at} />)} 
             />
             

@@ -30,7 +30,7 @@ const ChatBubble = (props) => {
                         paddingLeft: "3%"
                      }}>{formattedDate}</Text>
                 </View>
-                <View style={{ width: "95%" }}>
+                <View style={{ width: "93%" }}>
                     <Text
                         style={{ 
                             color: "white",
