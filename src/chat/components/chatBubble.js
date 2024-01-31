@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { format } from 'date-fns';
 
 const ChatBubble = (props) => {
+    const [formattedDate, setFormattedDate] = useState('');
+
+    useEffect(() => {
+        const dateTimeObject = new Date(props.time);
+        setFormattedDate(format(dateTimeObject, "MM/dd/yy 'at' h:mm a"));
+    }, [])
+
     return (
-        // <View style={{ backgroundColor: "#742DDD", padding: "5%", borderRadius: 7 }}>
-        //     <Text style={{ color: "white", fontFamily: "Montserrat-Medium" }}>{props.content}</Text>
-        // </View>
         <View style={{ flexDirection: "row", width: "95%", alignSelf: "center", paddingBottom: "1.5%" }}>
             <Text style={{ fontSize: RFPercentage(5) }}>🧩</Text>
             <View style={{flexDirection: "column", paddingLeft: "1.75%" }}>
@@ -23,7 +28,7 @@ const ChatBubble = (props) => {
                         color: "#626262",
                         fontFamily: "Montserrat-Medium",
                         paddingLeft: "3%"
-                     }}>{props.time}</Text>
+                     }}>{formattedDate}</Text>
                 </View>
                 <Text 
                     style={{ 

@@ -25,7 +25,7 @@
     "@sendbird/uikit-react-native": "^3.3.0",
     "@supabase/supabase-js": "^2.39.2",
     "axios": "^1.6.5",
-    "date-fns": "^3.0.6",
+    "date-fns": "^3.3.1",
     "expo-font": "^11.6.0",
     "fuse.js": "^7.0.0",
     "react": "18.2.0",
