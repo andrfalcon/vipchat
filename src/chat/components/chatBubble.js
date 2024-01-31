@@ -23,7 +23,7 @@ const ChatBubble = (props) => {
                         color: "#626262",
                         fontFamily: "Montserrat-Medium",
                         paddingLeft: "3%"
-                     }}>11/05/23 at 11:01AM</Text>
+                     }}>{props.time}</Text>
                 </View>
                 <Text 
                     style={{ 

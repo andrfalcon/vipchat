@@ -50,7 +50,7 @@ const ChatScreen = ({ route }) => {
     // }
 
     async function handleFetchChats() {
-        var dummyChats = (await supabase.from('messages').select('content, user_id').eq('group_name', chatName)).data;
+        var dummyChats = (await supabase.from('messages').select('content, user_id, sent_at').eq('group_name', chatName)).data;
         for (let i=0; i<dummyChats.length; i++) {
             dummyChats[i].key = String(getRandomInt(1,100000));
         }
@@ -70,7 +70,7 @@ const ChatScreen = ({ route }) => {
             table: 'messages'
         },
         (payload) => {
-            setChats(prevChats => [...prevChats, {key: String(getRandomInt(1,100000)), content: payload.new.content, user_id: payload.new.user_id}]);
+            setChats(prevChats => [...prevChats, {key: String(getRandomInt(1,100000)), content: payload.new.content, user_id: payload.new.user_id, sent_at: payload.new.sent_at}]);
         }
         ).subscribe()
     }, [])
@@ -92,7 +92,7 @@ const ChatScreen = ({ route }) => {
 
             <FlatList 
                 data={chats} 
-                renderItem={({item}) => (<ChatBubble content={item.content} username={item.user_id} />)} 
+                renderItem={({item}) => (<ChatBubble content={item.content} username={item.user_id} time={item.sent_at} />)} 
             />
             
             <View style={{ alignSelf: "flex-end", height: "7%", width: "100%" }} >
