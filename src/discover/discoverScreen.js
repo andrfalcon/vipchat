@@ -78,27 +78,29 @@ const DiscoverScreen = () => {
                     }}>Results</Text>
 
                     {/* Don't think this hrule is responsive */}
-                    <View 
+                    {/* <View 
                         style={{
                             height: '1%',
                             backgroundColor: 'white',
                             alignSelf: 'stretch',
                             marginTop: "0.65%"
                         }}
-                    />
+                    /> */}
                 </View>
-
-                {(displayedGroups.length == 0) ? (
-                    <NoMatch />
-                ) : (
-                    <View>
-                        <FlatList 
-                            data={displayedGroups} 
-                            renderItem={({item}) => (<Text style={{color:"white"}}>{item.item.group_name}</Text>)} 
-                            keyExtractor={item => item.refIndex}
-                        />
-                    </View>
-                )}
+                
+                <View style={{ width: "100%", height: "40%" }}>
+                    {(displayedGroups.length == 0) ? (
+                        <NoMatch />
+                    ) : (
+                        <View>
+                            <FlatList 
+                                data={displayedGroups} 
+                                renderItem={({item}) => (<Text style={{color:"white"}}>{item.item.group_name}</Text>)} 
+                                keyExtractor={item => item.refIndex}
+                            />
+                        </View>
+                    )}
+                </View>
             </View>
         </View>
     )

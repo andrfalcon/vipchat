@@ -34,19 +34,12 @@ const ChatScreen = ({ route }) => {
     }
 
     // Use this function to fetch the first 15 chats or so
-    async function handleFetchChats() {
-        var dummyChats = (await supabase.from('messages').select('content, user_id, sent_at').eq('group_name', chatName)).data;
-        setChats(dummyChats);
-    }
+    // async function handleFetchChats() {
+    //     var dummyChats = (await supabase.from('messages').select('content, user_id, sent_at').eq('group_name', chatName)).data;
+    //     setChats(dummyChats);
+    // }
 
-    // Use this function to fetch chats as the user scrolls
-    // Can technically call this on init too
     async function handleScroll() {
-        // var numOfChats = (await supabase
-        // .from('messages')
-        // .select('content')
-        // .eq('group_name', chatName)).data.length
-
         const timeSortedChatData = await supabase
         .from('messages')
         .select('content, user_id, sent_at')
@@ -55,13 +48,13 @@ const ChatScreen = ({ route }) => {
         .range(numberOfChatsDisplayed, numberOfChatsDisplayed + 15);
         setNumberOfChatsDisplayed(numberOfChatsDisplayed + 16);
         setChats((prevData) => [...prevData, ...timeSortedChatData.data]);
-        // console.log(timeSortedChatData.data);
     }
 
     useEffect(() => {
         // Fetch old chats
         // handleFetchChats();
         handleScroll();
+        
         // Listen for new chats
         const channel = supabase
         .channel('messages_table_changes')
