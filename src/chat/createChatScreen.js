@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Text, TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { supabase } from '../../services/supabase';
-import { ChatListContext } from './chatStack';
+import { ChatListContext } from '../homeNavigator';
 
 const CreateChatScreen = () => {
     const [title, setTitle] = useState('');

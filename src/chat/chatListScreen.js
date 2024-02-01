@@ -4,7 +4,7 @@ import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { supabase } from '../../services/supabase';
 import { create } from 'react-test-renderer';
-import { ChatListContext } from './chatStack';
+import { ChatListContext } from '../homeNavigator'; 
 
 const ChatListScreen = () => {
     const navigation = useNavigation();

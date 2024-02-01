@@ -1,9 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
+import { Text, Button } from 'react-native-paper';
 
-const JoinChat = () => {
+const JoinChat = (props) => {
     return (
-        <View style={{height: "10%"}}>
+        <View>
+            <Text style={{ color: "white" }}>{props.title}</Text>
+            <Button mode="outlined">Join Chat</Button>
         </View>
     )
 }

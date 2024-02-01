@@ -5,6 +5,7 @@ import { supabase } from '../../services/supabase';
 import Fuse from 'fuse.js';
 import { RFPercentage } from "react-native-responsive-fontsize";
 import NoMatch from './components/noMatch';
+import JoinChat from './components/joinChat';
 
 
 const DiscoverScreen = () => {
@@ -95,7 +96,7 @@ const DiscoverScreen = () => {
                         <View>
                             <FlatList 
                                 data={displayedGroups} 
-                                renderItem={({item}) => (<Text style={{color:"white"}}>{item.item.group_name}</Text>)} 
+                                renderItem={({item}) => (<JoinChat title={item.item.group_name} />)} 
                                 keyExtractor={item => item.refIndex}
                             />
                         </View>
