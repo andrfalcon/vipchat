@@ -40,21 +40,28 @@ const ChatScreen = ({ route }) => {
     }
 
     // Use this function to fetch chats as the user scrolls
+    // Can technically call this on init too
     async function handleScroll() {
+        // var numOfChats = (await supabase
+        // .from('messages')
+        // .select('content')
+        // .eq('group_name', chatName)).data.length
+
         const timeSortedChatData = await supabase
         .from('messages')
         .select('content, user_id, sent_at')
         .eq('group_name', chatName)
         .order('sent_at', { ascending: false })
-        .range(numberOfChatsDisplayed, numberOfChatsDisplayed + 2);
-        console.log(timeSortedChatData);
-        setNumberOfChatsDisplayed(numberOfChatsDisplayed + 3);
-        // NOW: APPEND TIME SORTED CHAT DATA TO CHATS VARIABLE
+        .range(numberOfChatsDisplayed, numberOfChatsDisplayed + 15);
+        setNumberOfChatsDisplayed(numberOfChatsDisplayed + 16);
+        setChats((prevData) => [...prevData, ...timeSortedChatData.data]);
+        // console.log(timeSortedChatData.data);
     }
 
     useEffect(() => {
         // Fetch old chats
-        handleFetchChats();
+        // handleFetchChats();
+        handleScroll();
         // Listen for new chats
         const channel = supabase
         .channel('messages_table_changes')
@@ -64,7 +71,7 @@ const ChatScreen = ({ route }) => {
             table: 'messages'
         },
         (payload) => {
-            setChats(prevChats => [...prevChats, {content: payload.new.content, user_id: payload.new.user_id, sent_at: payload.new.sent_at}]);
+            setChats(prevChats => [{content: payload.new.content, user_id: payload.new.user_id, sent_at: payload.new.sent_at}, ...prevChats]);
         }
         ).subscribe()
     }, [])
@@ -81,13 +88,15 @@ const ChatScreen = ({ route }) => {
                 <TouchableOpacity style={{ paddingRight: "3%" }}>
                     <FontAwesomeIcon name="gear" size={25} color="white" />
                 </TouchableOpacity>
-                <Button onPress={() => handleScroll()}>Test Load Chats</Button>
             </View>
 
             <FlatList 
                 data={chats}
                 renderItem={({item}) => (<ChatBubble content={item.content} username={item.user_id} time={item.sent_at} />)}
-                keyExtractor={item => chats.indexOf(item)} 
+                keyExtractor={item => chats.indexOf(item)}
+                onEndReached={handleScroll}
+                onEndReachedThreshold={0.2}
+                inverted
             />
             
             <View style={{ alignSelf: "flex-end", height: "7%", width: "100%" }} >
