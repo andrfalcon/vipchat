@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, Image, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { supabase } from '../../services/supabase';
 import { create } from 'react-test-renderer';
 import { ChatListContext } from '../homeNavigator'; 
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 const ChatListScreen = () => {
     const navigation = useNavigation();
@@ -15,17 +16,26 @@ const ChatListScreen = () => {
     }, [])
 
     return (
-        <View style={{flex:1, justifyContent: "flexStart", alignItems: "center", paddingTop: "10%", backgroundColor: "#14141A"}}>
-            <Text>Chat List Screen</Text>
-            <Button onPress={() => navigation.navigate('Chat')}>Go to Chat Screen</Button>
-            <Button onPress={() => navigation.navigate('CreateChat')}>Create Group Chat</Button>
-            {/* Next: Bring users to specific chat when chat is selected */}
+        <View style={{flex:1, justifyContent: "flexStart", paddingTop: "7.5%", paddingLeft: "7.5%", backgroundColor: "#14141A"}}>
+            <Text style={{ color: "white", fontFamily:"SpaceGrotesk-Bold", fontSize: RFPercentage(6) }}>Chats</Text>
             <FlatList 
                 data={sharedChatData.chatList} 
                 renderItem={({item}) => (<Button onPress={() => navigation.navigate('Chat', {
                     chatName: item.name
                 })}>{item.name}</Button>)} 
             />
+            <View style={{ alignSelf: "flex-end", width: 70, height: 70, borderRadius: 35, backgroundColor: "#742DDD", justifyContent: "center", alignItems: "center"}}>
+            <TouchableOpacity onPress={() => navigation.navigate('CreateChat')}>
+                <Image 
+                    style={{
+                        resizeMode: "cover", 
+                        aspectRatio: 1, 
+                        width: "55%", 
+                        height: undefined}} 
+                    source={require('../../assets/createChat.png')} 
+                />
+            </TouchableOpacity>
+            </View>
         </View>
     )
 }
