@@ -13,6 +13,7 @@ const ChatListScreen = () => {
 
     useEffect(() => {
         sharedChatData.handleUserAddedToChat();
+        console.log("use effect was called here");
     }, [])
 
     return (
