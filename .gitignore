@@ -3,7 +3,7 @@
 .DS_Store
 
 # Prep for github
-..bundle/
+.bundle/
 
 # Environment
 .env
