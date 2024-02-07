@@ -70,3 +70,6 @@ yarn-error.log
 # testing
 /coverage
 ios/
+android/
+.bundle/
+__tests__/
