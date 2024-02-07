@@ -3,7 +3,6 @@
 .DS_Store
 
 # Prep for github
-.bundle/
 
 # Environment
 .env
@@ -70,3 +69,4 @@ yarn-error.log
 
 # testing
 /coverage
+ios/
