@@ -8,6 +8,7 @@ import { ChatListContext } from '../homeNavigator';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import ChatRow from './components/chatRow';
 
+// ENCOUNTERED TWO CHILDREN WITH THE SAME KEY NEEDS TO BE FIXED
 const ChatListScreen = () => {
     const navigation = useNavigation();
     const sharedChatData = useContext(ChatListContext);

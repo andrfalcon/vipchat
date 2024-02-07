@@ -25,6 +25,18 @@ const JoinChat = (props) => {
             <Text style={{ color: "white" }}>{props.title}</Text>
             <Button mode="outlined" onPress={handleJoinChat}>Join Chat</Button>
         </View>
+
+        // THIS IS THE CORRECT CODE:
+        // <View style={{ flexDirection: "column" }}>
+        //     <View style={{ flexDirection: "row" }}>
+        //         {/* GROUP EMOJI AVATAR GOES HERE */}
+        //         <View style={{ flexDirection: "column" }}>
+        //             <Text>John's Amazing Vipchat</Text>
+        //             <Text>@johnthetrader</Text>
+        //         </View>
+        //     </View>
+        //     <Text>By joining this Vipchat, you will learn tons of new things.</Text>
+        // </View>
     )
 }
 
