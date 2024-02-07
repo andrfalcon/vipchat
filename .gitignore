@@ -87,4 +87,5 @@ react-native.config.js
 README.md
 tsconfig.json
 yarn.lock
+app.json
 
