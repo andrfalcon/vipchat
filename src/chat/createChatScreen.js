@@ -4,6 +4,7 @@ import { Text, TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { supabase } from '../../services/supabase';
 import { ChatListContext } from '../homeNavigator';
+import * as stripe from '../../services/stripe'
 
 const CreateChatScreen = () => {
     const [title, setTitle] = useState('');
@@ -19,6 +20,14 @@ const CreateChatScreen = () => {
             created_by: user,
             price: price
         })
+
+        try {
+            const product = await stripe.createProduct(title, parseInt(price*100));
+            console.log('Product created:', product);
+          } catch (error) {
+            console.error('Failed to create product:', error);
+          }
+
 
         const userGroups = (await supabase.from('users').select('groups').eq('username', user)).data[0].groups;
         userGroups.push(title);
