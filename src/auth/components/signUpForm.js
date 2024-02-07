@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { Text, Button, TextInput } from 'react-native-paper';
 import { supabase } from '../../../services/supabase';
 import { AuthContext } from '../../navigation';
+import { createAccount } from '../../../services/stripe';
 
 const signUpForm = (props) => {
     const [username, setUsername] = useState("");
@@ -47,6 +48,9 @@ const signUpForm = (props) => {
             email: email,
             groups: []
         })
+
+        // Create stripe connected account for user
+        createAccount(email)
 
         if (!error) {
             authenticateUser();

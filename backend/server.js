@@ -8,6 +8,20 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
+// Endpoint to create Stripe connected account
+app.post('/create-account', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const account = await stripe.accounts.create({
+      type: 'express',
+      email: email
+    })
+    console.log("Stripe account created successfully!");
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+})
+
 // Endpoint to create a product
 app.post('/create-product', async (req, res) => {
   try {
