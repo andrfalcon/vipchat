@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { Text, Button, TextInput } from 'react-native-paper';
 import { supabase } from '../../../services/supabase';
 import { AuthContext } from '../../navigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const signInForm = (props) => {
     const [email, setEmail] = useState("");
@@ -23,6 +24,7 @@ const signInForm = (props) => {
             email: email,
             password: password
         })
+
         if (!error) {
             authenticateUser();
             console.log("User authenticated!");

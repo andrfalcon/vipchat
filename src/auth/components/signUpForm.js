@@ -49,9 +49,6 @@ const signUpForm = (props) => {
             groups: []
         })
 
-        // Create stripe connected account for user
-        createAccount(email)
-
         if (!error) {
             authenticateUser();
             console.log("User created!")

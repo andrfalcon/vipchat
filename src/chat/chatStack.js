@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AccountScreen from '../accountScreen';
+import AccountScreen from '../account/accountScreen';
 import ChatListScreen from './chatListScreen';
 import ChatScreen from './chatScreen';
 import CreateChatScreen from './createChatScreen';

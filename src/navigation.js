@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import { View, Text, Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {GroupChannelListScreen, GroupChannelCreateScreen, ConnectSendbirdScreen} from './messaging';

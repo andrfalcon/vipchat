@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import ChatStack from './chat/chatStack';
-import AccountScreen from './accountScreen';
+import AccountScreen from './account/accountScreen';
 import DiscoverStack from './discover/discoverStack';
 import { supabase } from '../services/supabase';
 

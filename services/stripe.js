@@ -7,7 +7,7 @@ const BASE_URL = 'http://localhost:3000'; // Change this to your server's URL
 const createAccount = async (email) => {
   try {
     const response = await axios.post(`${BASE_URL}/create-account`, { email });
-    return response.data;
+    return response.data.url;
   } catch (error) {
     console.error('Error creating account');
   }
