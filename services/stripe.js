@@ -1,8 +1,17 @@
 // StripeService.js
 //TEST
 import axios from 'axios';
-
 const BASE_URL = 'http://localhost:3000'; // Change this to your server's URL
+
+const fetchPaymentSheetParams = async (price) => {
+  // Post email address later on and check if customer object exists
+  try {
+    const response = await axios.post(`${BASE_URL}/payment-sheet`, { price: price });
+    return response.data;
+  } catch (error) {
+    console.log('Error creating payment sheet:', error);
+  }
+}
 
 const createAccount = async (email) => {
   try {
@@ -23,4 +32,8 @@ const createProduct = async (name, price) => {
   }
 };
 
-export { createAccount, createProduct };
+export { 
+  fetchPaymentSheetParams,
+  createAccount, 
+  createProduct 
+};

@@ -3,8 +3,12 @@ import { View } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 import { ChatListContext } from '../../homeNavigator';
 import { supabase } from '../../../services/supabase';
+import { useNavigation } from '@react-navigation/native';
+import { fetchPaymentSheetParams } from '../../../services/stripe';
+import { useStripe } from '@stripe/stripe-react-native';
 
 const JoinChat = (props) => {
+    const { initPaymentSheet, presentPaymentSheet } = useStripe();
     const sharedChatData = useContext(ChatListContext);
 
     async function handleJoinChat() {
@@ -20,10 +24,41 @@ const JoinChat = (props) => {
         sharedChatData.handleUserAddedToChat();
     }
 
+    const initializePaymentSheet = async () => {
+        const { paymentIntent, ephemeralKey, customer, publishableKey } = await fetchPaymentSheetParams(props.price*100);
+        const { error } = await initPaymentSheet({
+            merchantDisplayName: "Vipchat",
+            customerId: customer,
+            customerEphemeralKeySecret: ephemeralKey,
+            paymentIntentClientSecret: paymentIntent,
+            allowsDelayedPaymentMethods: true,
+            defaultBillingDetails: {
+              name: 'Test User 1',
+            }
+        });
+    }
+
+    const openPaymentSheet = async () => {
+        const { error } = await presentPaymentSheet();
+      
+        if (error) {
+          console.log(`Error code: ${error.code}`, error.message);
+        } else {
+          console.log('Success', 'Your order is confirmed!');
+        }
+    }
+
+    const handleInitCheckout = async () => {
+        await initializePaymentSheet();
+        await openPaymentSheet();
+        // Make it so that if there is an error in checkout, handleJoinChat() is not called
+    }
+
     return (
         <View>
             <Text style={{ color: "white" }}>{props.title}</Text>
-            <Button mode="outlined" onPress={handleJoinChat}>Join Chat</Button>
+            <Text style={{ color: "white" }}>{props.price}</Text>
+            <Button mode="outlined" onPress={handleInitCheckout}>Join Chat</Button>
         </View>
 
         // THIS IS THE CORRECT CODE:

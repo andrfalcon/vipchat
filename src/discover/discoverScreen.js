@@ -15,12 +15,13 @@ const DiscoverScreen = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setDataset((await supabase.from('groups').select('group_name')).data)
+            setDataset((await supabase.from('groups').select('group_name, price')).data)
         }
         fetchData();
     }, [])
     
     const handleSearch = async () => {
+        console.log("Dataset", dataset);
         // By the time this function is called, dataset will have updated as rerender has been triggered
         const fuse = new Fuse(dataset, {keys: ['group_name']});
         setDisplayedGroups(fuse.search(search));
@@ -96,7 +97,7 @@ const DiscoverScreen = () => {
                         <View>
                             <FlatList 
                                 data={displayedGroups} 
-                                renderItem={({item}) => (<JoinChat title={item.item.group_name} />)} 
+                                renderItem={({item}) => (<JoinChat title={item.item.group_name} price={item.item.price}  />)} 
                                 keyExtractor={item => item.refIndex}
                             />
                         </View>
