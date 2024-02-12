@@ -31,6 +31,7 @@ app.post('/payment-sheet', async (req, res) => {
       automatic_payment_methods: {
         enabled: true,
       },
+      application_fee_amount: price * 0.10,
       transfer_data: {
         destination: connected_id,
       },
