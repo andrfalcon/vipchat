@@ -25,13 +25,16 @@ const JoinChat = (props) => {
     }
 
     const initializePaymentSheet = async () => {
-        const { paymentIntent, ephemeralKey, customer, publishableKey } = await fetchPaymentSheetParams(props.price*100);
+        // Need to pass connected_id into fetchPaymentSheetParams()
+        // Thus need prop passed into JoinChat
+        const { paymentIntent, ephemeralKey, customer, publishableKey } = await fetchPaymentSheetParams(props.price*100, props.connectedId);
         const { error } = await initPaymentSheet({
             merchantDisplayName: "Vipchat",
             customerId: customer,
             customerEphemeralKeySecret: ephemeralKey,
             paymentIntentClientSecret: paymentIntent,
             allowsDelayedPaymentMethods: true,
+            // CHANGE THIS ?!
             defaultBillingDetails: {
               name: 'Test User 1',
             }

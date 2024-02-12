@@ -37,15 +37,15 @@ const signUpForm = (props) => {
             password: password,
             options: {
                 data: {
-                    username: username
+                    username: username.toLowerCase()
                 }
             }
         })
 
         // Add user to users table
         await supabase.from('users').insert({
-            username: username,
-            email: email,
+            username: username.toLowerCase(),
+            email: email.toLowerCase(),
             groups: []
         })
 

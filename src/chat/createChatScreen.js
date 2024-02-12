@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View } from 'react-native';
 import { Text, TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -14,20 +14,26 @@ const CreateChatScreen = () => {
     const sharedChatData = useContext(ChatListContext);
 
     async function handleCreateGroupChat() {
+
         const user = (await supabase.auth.getSession()).data.session.user.user_metadata.username
+
+        // Access user's connectedid
+        const connectedId = (await supabase.from('users').select('connected_id').eq('username', user)).data[0].connected_id;
+        console.log(connectedId);
+
         const { error } = await supabase.from('groups').insert({
             group_name: title,
             created_by: user,
-            price: price
+            price: price,
+            connected_id: connectedId
         })
 
-        try {
-            const product = await createProduct(title, parseInt(price*100));
-            console.log('Product created:', product);
-          } catch (error) {
-            console.error('Failed to create product:', error);
-          }
-
+        // try {
+        //     const product = await createProduct(title, parseInt(price*100));
+        //     console.log('Product created:', product);
+        // } catch (error) {
+        //     console.error('Failed to create product:', error);
+        // }
 
         const userGroups = (await supabase.from('users').select('groups').eq('username', user)).data[0].groups;
         userGroups.push(title);

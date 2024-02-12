@@ -15,7 +15,8 @@ const DiscoverScreen = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setDataset((await supabase.from('groups').select('group_name, price')).data)
+            // Pass connected_id into here and pass as prop
+            setDataset((await supabase.from('groups').select('group_name, price, connected_id')).data)
         }
         fetchData();
     }, [])
@@ -97,7 +98,7 @@ const DiscoverScreen = () => {
                         <View>
                             <FlatList 
                                 data={displayedGroups} 
-                                renderItem={({item}) => (<JoinChat title={item.item.group_name} price={item.item.price}  />)} 
+                                renderItem={({item}) => (<JoinChat title={item.item.group_name} price={item.item.price} connectedId={item.item.connected_id}  />)} 
                                 keyExtractor={item => item.refIndex}
                             />
                         </View>

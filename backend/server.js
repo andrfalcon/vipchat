@@ -15,12 +15,13 @@ app.use(cors());
 app.post('/payment-sheet', async (req, res) => {
   try {
     // Use an existing Customer ID if this is a returning customer.
-    const { price } = req.body;
+    const { price, connected_id } = req.body;
     const customer = await stripe.customers.create();
     const ephemeralKey = await stripe.ephemeralKeys.create(
       {customer: customer.id},
       {apiVersion: '2023-10-16'}
     );
+
     const paymentIntent = await stripe.paymentIntents.create({
       amount: price,
       currency: 'usd',
@@ -29,6 +30,9 @@ app.post('/payment-sheet', async (req, res) => {
       // is optional because Stripe enables its functionality by default.
       automatic_payment_methods: {
         enabled: true,
+      },
+      transfer_data: {
+        destination: connected_id,
       },
     });
 
@@ -62,7 +66,8 @@ app.post('/create-account', async (req, res) => {
     })
 
     const responseData = {
-      url: accountLink.url
+      url: accountLink.url,
+      connected_id: account.id
     }
     res.json(responseData);
     console.log("Stripe account created successfully!");
