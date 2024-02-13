@@ -11,6 +11,25 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(cors());
 
+// Endpoint to verify if connected account is enabled or disabled
+app.post('/check-stripe-status', async (req, res) => {
+  try {
+    const { connected_id } = req.body;
+    const account = await stripe.accounts.retrieve(connected_id);
+    if (account.charges_enabled == true && account.payouts_enabled == true) {
+      res.json({
+        stripeIsActivated: true
+      })
+    } else {
+      res.json({
+        stripeIsActivated: false
+      })
+    }
+  } catch (error) {
+    console.log("Error Verifying Stripe Account: ", error);
+  }
+})
+
 // Endpoint to create Stripe payment sheet
 app.post('/payment-sheet', async (req, res) => {
   try {
@@ -56,7 +75,7 @@ app.post('/create-account', async (req, res) => {
 
     const account = await stripe.accounts.create({
       type: 'express',
-      email: email
+      email: email,
     })
 
     const accountLink = await stripe.accountLinks.create({

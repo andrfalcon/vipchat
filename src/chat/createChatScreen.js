@@ -4,7 +4,8 @@ import { Text, TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { supabase } from '../../services/supabase';
 import { ChatListContext } from '../homeNavigator';
-import { createProduct } from '../../services/stripe'
+import { createProduct } from '../../services/stripe';
+import axios from 'axios';
 
 const CreateChatScreen = () => {
     const [title, setTitle] = useState('');
@@ -13,42 +14,40 @@ const CreateChatScreen = () => {
     const navigation = useNavigation();
     const sharedChatData = useContext(ChatListContext);
 
+    async function hasStripeVerified(connectedId) {
+        const response = await axios.post('http://localhost:3000/check-stripe-status', { connected_id: connectedId });
+        return response.data.stripeIsActivated
+    }
+
     async function handleCreateGroupChat() {
-
         const user = (await supabase.auth.getSession()).data.session.user.user_metadata.username
-
-        // Access user's connectedid
         const connectedId = (await supabase.from('users').select('connected_id').eq('username', user)).data[0].connected_id;
-        console.log(connectedId);
 
-        const { error } = await supabase.from('groups').insert({
-            group_name: title,
-            created_by: user,
-            price: price,
-            connected_id: connectedId
-        })
-
-        // try {
-        //     const product = await createProduct(title, parseInt(price*100));
-        //     console.log('Product created:', product);
-        // } catch (error) {
-        //     console.error('Failed to create product:', error);
-        // }
-
-        const userGroups = (await supabase.from('users').select('groups').eq('username', user)).data[0].groups;
-        userGroups.push(title);
-
-        // Add creator to their created group
-        await supabase.from('users').update({
-            groups: userGroups
-        }).eq('username', user)
-
-        sharedChatData.handleUserAddedToChat();
-
-        if (!error) {
-            console.log("Group chat created successfully!");
+        if (await hasStripeVerified(connectedId)) {
+            const { error } = await supabase.from('groups').insert({
+                group_name: title,
+                created_by: user,
+                price: price,
+                connected_id: connectedId
+            })
+    
+            const userGroups = (await supabase.from('users').select('groups').eq('username', user)).data[0].groups;
+            userGroups.push(title);
+    
+            // Add creator to their created group
+            await supabase.from('users').update({
+                groups: userGroups
+            }).eq('username', user)
+    
+            sharedChatData.handleUserAddedToChat();
+    
+            if (!error) {
+                console.log("Group chat created successfully!");
+            } else {
+                console.log("Error: " + error);
+            }    
         } else {
-            console.log("Error: " + error);
+            console.log("Cannot create vipchat. You must verify your stripe account.")
         }
     }
 
