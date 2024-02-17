@@ -5,6 +5,7 @@ import { createAccount } from '../../services/stripe';
 import { Linking } from 'react-native';
 import { supabase } from '../../services/supabase';
 import { openPhotoPicker } from 'react-native-permissions';
+import AccountBalance from './components/accountBalance';
 
 const AccountScreen = () => {
     const handleCreateStripe = async () => {
@@ -29,6 +30,7 @@ const AccountScreen = () => {
     return (
         <View style={{flex:1, justifyContent: "center"}}>
             <Button onPress={handleCreateStripe}>Create Stripe Account</Button>
+            <AccountBalance />
         </View>
     )
 }

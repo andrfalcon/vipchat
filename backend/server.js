@@ -11,6 +11,17 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(cors());
 
+// Endpoint to retrieve Stripe balance
+app.post('/check-stripe-balance', async (req, res) => {
+  const { connected_id } = req.body;
+  const balance = await stripe.balance.retrieve({
+    stripeAccount: `${connected_id}`,
+  });
+  res.json({
+    balance: balance.available[0].amount
+  })
+})
+
 // Endpoint to verify if connected account is enabled or disabled
 app.post('/check-stripe-status', async (req, res) => {
   try {
