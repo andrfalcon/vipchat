@@ -11,14 +11,24 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(cors());
 
+// Endpoint to create Stripe login link
+app.post('/create-stripe-login-link', async (req, res) => {
+  const { connected_id } = req.body;
+  const loginLink = await stripe.accounts.createLoginLink(connected_id);
+  res.json({
+    url: loginLink.url
+  })
+})
+
 // Endpoint to retrieve Stripe balance
 app.post('/check-stripe-balance', async (req, res) => {
   const { connected_id } = req.body;
   const balance = await stripe.balance.retrieve({
     stripeAccount: `${connected_id}`,
   });
+  console.log(balance);
   res.json({
-    balance: balance.available[0].amount
+    balance: balance.pending[0].amount
   })
 })
 
