@@ -6,6 +6,8 @@ import ChatStack from './chat/chatStack';
 import AccountScreen from './account/accountScreen';
 import DiscoverStack from './discover/discoverStack';
 import { supabase } from '../services/supabase';
+import Icon from 'react-native-vector-icons/AntDesign'
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const Tab = createBottomTabNavigator();
 const ChatListContext = createContext(null);
@@ -42,9 +44,24 @@ const HomeNavigator = () => {
                     }
                 }}
             >
-                <Tab.Screen name='DiscoverStack' component={DiscoverStack} />
-                <Tab.Screen name='ChatStack' component={ChatStack} />
-                <Tab.Screen name='Account' component={AccountScreen} />
+                <Tab.Screen name='DiscoverStack' component={DiscoverStack} options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <Icon name="home" color="white" size={30}  />
+                    ),
+                    tabBarLabel:() => {return null},
+                }} />
+                <Tab.Screen name='ChatStack' component={ChatStack} options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <Icon name="message1" color="white" size={30}  />
+                    ),
+                    tabBarLabel:() => {return null},
+                }}/>
+                <Tab.Screen name='Account' component={AccountScreen} options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <MCIcon name="account-outline" color="white" size={30}  />
+                    ),
+                    tabBarLabel:() => {return null},
+                }}/>
             </Tab.Navigator>
         </ChatListContext.Provider>
     )
