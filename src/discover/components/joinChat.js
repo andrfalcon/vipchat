@@ -6,6 +6,7 @@ import { supabase } from '../../../services/supabase';
 import { useNavigation } from '@react-navigation/native';
 import { fetchPaymentSheetParams } from '../../../services/stripe';
 import { useStripe } from '@stripe/stripe-react-native';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 const JoinChat = (props) => {
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
@@ -34,10 +35,9 @@ const JoinChat = (props) => {
             customerEphemeralKeySecret: ephemeralKey,
             paymentIntentClientSecret: paymentIntent,
             allowsDelayedPaymentMethods: true,
-            // CHANGE THIS ?!
-            defaultBillingDetails: {
-              name: 'Test User 1',
-            }
+            // defaultBillingDetails: {
+            //   name: 'Test User 1',
+            // }
         });
     }
 
@@ -48,33 +48,58 @@ const JoinChat = (props) => {
           console.log(`Error code: ${error.code}`, error.message);
         } else {
           console.log('Success', 'Your order is confirmed!');
+          handleJoinChat();
         }
     }
 
     const handleInitCheckout = async () => {
         await initializePaymentSheet();
         await openPaymentSheet();
-        // Make it so that if there is an error in checkout, handleJoinChat() is not called
     }
 
     return (
-        <View>
-            <Text style={{ color: "white" }}>{props.title}</Text>
-            <Text style={{ color: "white" }}>{props.price}</Text>
-            <Button mode="outlined" onPress={handleInitCheckout}>Join Chat</Button>
+        <View style={{ flexDirection: "column" }}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                {/* GROUP EMOJI AVATAR GOES HERE */}
+                <Text 
+                    style={{ 
+                        fontFamily:"SpaceGrotesk-Bold", 
+                        color:"white",
+                        fontSize: RFPercentage(3) 
+                    }}
+                >{props.title}</Text>
+                <Text 
+                    style={{ 
+                        fontFamily:"SpaceGrotesk-Bold", 
+                        color:"white",
+                        fontSize: RFPercentage(3) 
+                    }}
+                >{`$${props.price}`}</Text>
+            </View>
+            {/* <Text
+                style={{
+                    fontFamily: "Montserrat-Medium",
+                    color: "white"
+                }}
+            >{props.description}</Text> */}
+            <View style={{ alignItems: "center", paddingTop: "3%" }}>
+                <Button 
+                    mode="contained" 
+                    onPress={handleInitCheckout}
+                    style={{ 
+                        width:"60%", 
+                        height: "3%", 
+                        justifyContent: "center", 
+                        borderRadius: 10, 
+                    }} 
+                    labelStyle={{ 
+                        fontFamily: "Montserrat-SemiBold", 
+                        fontSize: 14
+                    }} 
+                    buttonColor="#742DDD" 
+                >Join Chat</Button>
+            </View>
         </View>
-
-        // THIS IS THE CORRECT CODE:
-        // <View style={{ flexDirection: "column" }}>
-        //     <View style={{ flexDirection: "row" }}>
-        //         {/* GROUP EMOJI AVATAR GOES HERE */}
-        //         <View style={{ flexDirection: "column" }}>
-        //             <Text>John's Amazing Vipchat</Text>
-        //             <Text>@johnthetrader</Text>
-        //         </View>
-        //     </View>
-        //     <Text>By joining this Vipchat, you will learn tons of new things.</Text>
-        // </View>
     )
 }
 
