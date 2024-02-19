@@ -22,14 +22,20 @@ app.post('/create-stripe-login-link', async (req, res) => {
 
 // Endpoint to retrieve Stripe balance
 app.post('/check-stripe-balance', async (req, res) => {
-  const { connected_id } = req.body;
+  const { connected_id, type } = req.body;
   const balance = await stripe.balance.retrieve({
     stripeAccount: `${connected_id}`,
   });
   console.log(balance);
-  res.json({
-    balance: balance.pending[0].amount
-  })
+  if (type == "Available") {
+    res.json({
+      balance: balance.available[0].amount
+    })
+  } else {
+    res.json({
+      balance: balance.pending[0].amount
+    })
+  }
 })
 
 // Endpoint to verify if connected account is enabled or disabled

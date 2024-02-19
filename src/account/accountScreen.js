@@ -75,7 +75,7 @@ const AccountScreen = () => {
                 My Finances
             </Text>
             <PaymentsToggle onToggle={(selection) => handleAuth(selection)} auth={auth} />
-            <AccountBalance />
+            <AccountBalance balanceType={auth} />
             <Text
                 style={{
                     fontFamily: "Montserrat-Medium",
